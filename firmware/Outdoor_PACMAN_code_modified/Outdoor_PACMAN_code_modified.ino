@@ -36,6 +36,7 @@
       //  Adafruit SD shields and modules: pin 10
       const int chipSelect = 10;
       
+      int firstloop = 1;
       
       // Declare the variables strings and char for naming the SD Card file name
       String fname;
@@ -276,7 +277,7 @@
 		  //Call the dustSignal function to measure dust
 		  dustVoltage = dustVoltage + dustSignal();
 	  }
-	  dustVoltage = dustVoltage / fsmp
+	  dustVoltage = dustVoltage / fsmp;
 	  // Call the humidity and Temperature functions to read the current values 
 	  h = humidRead();
 	  t = tempRead();
@@ -339,6 +340,11 @@
             }
 	    delay(60000);
 	  }
+//Need to cancel interrupt flag if it occurred during start-up routine before putting to sleep
+if (firstloop = 1) {
+  RTC_send_register(0x0F,0);
+  firstloop = 0;
+}
   sleepNow();  
     }
           
